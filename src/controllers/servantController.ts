@@ -1,5 +1,6 @@
 import { Elysia, t } from 'elysia'
 import { servant } from '../models/servant'
+import { servantDetails } from '../models/servantDetails'
 import { ServantService } from '../services/servantService'
 
 const servantController = new Elysia()
@@ -14,7 +15,7 @@ const servantController = new Elysia()
         params: t.Object({
             id: t.Numeric()
         }),
-        response: servant
+        response: servantDetails
     })
 
 export { servantController }

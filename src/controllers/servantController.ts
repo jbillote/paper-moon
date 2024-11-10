@@ -10,7 +10,7 @@ const servantController = new Elysia()
         response: t.Array(servant)
     })
     .get('/servant/:id', ({ params: { id }}) => {
-        return ServantService.servant(id)
+        return ServantService.servantDetails(id)
     }, {
         params: t.Object({
             id: t.Numeric()

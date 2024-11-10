@@ -18,7 +18,7 @@ class ServantService {
         ]
     }
 
-    static async servant(id: number) {
+    static async servantDetails(id: number) {
         const resp = await AtlasAcademy.getServant(id)
 
         let portraits: Array<string> = []
@@ -45,7 +45,7 @@ class ServantService {
         return {
             id: resp['id'],
             name: resp['name'],
-            classIcon: 'https://static.atlasacademy.io/JP/ClassIcons/class3_25.png',
+            classIcon: AtlasAcademy.classIconURL(resp['classId'], resp['rarity']),
             icon: resp['extraAssets']['faces']['ascension']['1'],
             portraits: portraits,
             skills: skills,

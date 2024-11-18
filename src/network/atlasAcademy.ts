@@ -1,5 +1,14 @@
 class AtlasAcademy {
-    static async getServant(id: number) {
+    static async getServants(start: number, end: number): Promise<{[x:string]: any}[]> {
+        // TODO: Cache this JSON file since it shouldn't change very often
+        const url: string = "https://api.atlasacademy.io/export/JP/basic_servant_lang_en.json"
+        const resp: Response = await fetch(url)
+        const respJson: object[] = await resp.json()
+
+        return [...respJson.slice(start, end)]
+    }
+
+    static async getServant(id: number): Promise<{[x: string]: any}> {
         const url: string = `https://api.atlasacademy.io/nice/JP/servant/${id}?lang=en`
         const resp: Response = await fetch(url)
         return await resp.json()

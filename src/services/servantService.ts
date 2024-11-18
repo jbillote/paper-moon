@@ -5,21 +5,21 @@ import { Skill } from "../models/skill"
 import { AtlasAcademy } from "../network/atlasAcademy"
 
 class ServantService {
-    static allServants(page: number = 0) {
-        return [
-            {
-                id: 2501400,
-                name: 'Aozaki Aoko',
-                classIcon: 'https://static.atlasacademy.io/JP/ClassIcons/class3_25.png',
-                icon: 'https://static.atlasacademy.io/JP/Faces/f_25014000.png'
-            },
-            {
-                id: 505500,
-                name: 'Kuonji Alice',
-                classIcon: 'https://static.atlasacademy.io/JP/ClassIcons/class3_5.png',
-                icon: 'https://static.atlasacademy.io/JP/Faces/f_5055000.png'
-            }
-        ]
+    static async allServants(start: number = 0, end: number = 20): Promise<Servant[]> {
+        const resp = await AtlasAcademy.getServants(start, end)
+
+        let servants: Servant[] = []
+        for (let ndx: number = start; ndx < end; ndx++) {
+            servants.push({
+                id: resp[ndx]['id'],
+                name: resp[ndx]['name'],
+                classIcon: AtlasAcademy.classIconURL(resp[ndx]['classId'], resp[ndx]['rarity']),
+                rarity: resp[ndx]['rarity'],
+                icon: resp[ndx]['face']
+            })
+        }
+
+        return servants
     }
 
     static async servantDetails(id: number): Promise<ServantDetails> {

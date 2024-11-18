@@ -1,3 +1,7 @@
+import { Material } from "../models/material"
+import { Servant } from "../models/servant"
+import { ServantDetails } from "../models/servantDetails"
+import { Skill } from "../models/skill"
 import { AtlasAcademy } from "../network/atlasAcademy"
 
 class ServantService {
@@ -18,15 +22,15 @@ class ServantService {
         ]
     }
 
-    static async servantDetails(id: number) {
+    static async servantDetails(id: number): Promise<ServantDetails> {
         const resp = await AtlasAcademy.getServant(id)
 
-        let portraits: Array<string> = []
+        let portraits: string[] = []
         for (const k in resp['extraAssets']['charaGraph']['ascension']) {
             portraits.splice(parseInt(k), 0, resp['extraAssets']['charaGraph']['ascension'][k])
         }
 
-        let skills: Array<object> = []
+        let skills: Skill[] = []
         resp['skills'].forEach((v: {[x: string]: any}) => {
             skills.push({
                 name: v['name'],
@@ -34,7 +38,7 @@ class ServantService {
             })
         });
 
-        let appends: Array<object> = []
+        let appends: Skill[] = []
         resp['appendPassive'].forEach((v: {[x: string]: any}) => {
             appends.push({
                 name: v['skill']['name'],
@@ -56,10 +60,10 @@ class ServantService {
         }
     }
 
-    private static materials(materialResp: {[x: string]: any}): Array<object> {
-        let materials: Array<object> = []
+    private static materials(materialResp: {[x: string]: any}): {qp: number, materials: Material[]}[] {
+        let materials: {qp: number, materials: Material[]}[] = []
         for (const o in materialResp) {
-            let items: Array<object> = []
+            let items: Material[] = []
             materialResp[o]['items'].forEach((v: {[x: string]: any}) => {
                 items.push({
                     id: v['item']['id'],

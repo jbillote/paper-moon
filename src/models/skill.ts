@@ -5,4 +5,6 @@ const skill = t.Object({
     icon: t.String()
 })
 
-export { skill }
+type Skill = typeof skill.static
+
+export { skill, Skill }

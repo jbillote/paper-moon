@@ -7,4 +7,6 @@ const servant = t.Object({
     icon: t.String()
 })
 
-export { servant }
+type Servant = typeof servant.static
+
+export { servant, Servant }

@@ -24,4 +24,6 @@ const servantDetails = t.Object({
     }))
 })
 
-export { servantDetails }
+type ServantDetails = typeof servantDetails.static
+
+export { servantDetails, ServantDetails }

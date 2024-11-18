@@ -7,4 +7,6 @@ const material = t.Object({
     amount: t.Numeric()
 })
 
-export { material }
+type Material = typeof material.static
+
+export { material, Material }

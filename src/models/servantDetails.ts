@@ -12,15 +12,15 @@ const servantDetails = t.Object({
     appends: t.Array(skill),
     ascensionMaterials: t.Array(t.Object({
         materials: t.Array(material),
-        qp: t.Numeric()
+        qp: t.Number()
     })),
     skillMaterials: t.Array(t.Object({
         materials: t.Array(material),
-        qp: t.Numeric()
+        qp: t.Number()
     })),
     appendMaterials: t.Array(t.Object({
         materials: t.Array(material),
-        qp: t.Numeric()
+        qp: t.Number()
     }))
 })
 

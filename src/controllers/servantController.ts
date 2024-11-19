@@ -3,7 +3,7 @@ import { servant } from '../models/servant'
 import { servantDetails } from '../models/servantDetails'
 import { ServantService } from '../services/servantService'
 
-const servantController = new Elysia()
+const servantController = new Elysia({ prefix: '/api/v1' })
     .get('/servants', ({ query: { page, limit }}) => {
         return ServantService.allServants(page, limit)
     }, {

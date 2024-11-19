@@ -3,7 +3,6 @@ import { servantController } from "./controllers/servantController";
 
 const app = new Elysia()
   .use(servantController)
-  .get('/', () => 'Hello Elysia')
   .listen(3000)
 
 console.log(

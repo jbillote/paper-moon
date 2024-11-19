@@ -23,6 +23,23 @@ class ServantService {
         return servants
     }
 
+    static async searchServants(query: string): Promise<Servant[]> {
+        const resp: {[x: string]: any}[] = await AtlasAcademy.searchServants(query)
+
+        let servants: Servant[] = []
+        for (const servant of resp) {
+            servants.push({
+                id: servant['id'],
+                name: servant['name'],
+                classIcon: AtlasAcademy.classIconURL(servant['classId'], servant['rarity']),
+                rarity: servant['rarity'],
+                icon: servant['face']
+            })
+        }
+
+        return servants
+    }
+
     static async servantDetails(id: number): Promise<ServantDetails> {
         const resp: {[x: string]: any} = await AtlasAcademy.getServant(id)
 

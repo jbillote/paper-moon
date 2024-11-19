@@ -13,6 +13,14 @@ const servantController = new Elysia()
         }),
         response: t.Array(servant)
     })
+    .get('/servants/search', ({ query: { query }}) => {
+        return ServantService.searchServants(query)
+    }, {
+        query: t.Object({
+            query: t.String()
+        }),
+        response: t.Array(servant)
+    })
     .get('/servant/:id', ({ params: { id }}) => {
         return ServantService.servantDetails(id)
     }, {

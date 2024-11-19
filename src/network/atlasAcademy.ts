@@ -8,6 +8,13 @@ class AtlasAcademy {
         return [...respJson.slice(start, end)]
     }
 
+    static async searchServants(query: string): Promise<{[x: string]: any}[]> {
+        // TODO: Cache response for pagination
+        const url: string = `https://api.atlasacademy.io/basic/JP/servant/search?name=${query}&lang=en`
+        const resp: Response = await fetch(url)
+        return await resp.json()
+    }
+
     static async getServant(id: number): Promise<{[x: string]: any}> {
         const url: string = `https://api.atlasacademy.io/nice/JP/servant/${id}?lang=en`
         const resp: Response = await fetch(url)

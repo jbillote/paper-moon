@@ -2,14 +2,23 @@
   "name": "paper-moon",
   "version": "1.0.50",
   "scripts": {
+    "build": "tailwindcss -i ./src/views/styles/globals.css -o ./public/globals.css",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "bun run --watch src/index.ts"
+    "dev": "concurrently \"bun run --watch src/index.ts\" \"bun run build --watch\""
   },
   "dependencies": {
+    "@elysiajs/html": "^1.1.1",
+    "@elysiajs/static": "^1.1.1",
+    "@elysiajs/swagger": "^1.1.6",
     "elysia": "latest"
   },
   "devDependencies": {
-    "bun-types": "latest"
+    "@tailwindcss/typography": "^0.5.15",
+    "bun-types": "latest",
+    "concurrently": "^9.1.0",
+    "tailwindcss": "^3.4.15",
+    "tailwindcss-animate": "^1.0.7",
+    "typed-html": "^3.0.1"
   },
-  "module": "src/index.js"
+  "module": "src/index.ts"
 }

@@ -5,11 +5,12 @@ import { Skill } from "../models/skill"
 import { AtlasAcademy } from "../network/atlasAcademy"
 
 class ServantService {
-    static async allServants(start: number = 0, end: number = 20): Promise<Servant[]> {
-        const resp = await AtlasAcademy.getServants(start, end)
+    static async allServants(page: number = 0, limit: number = 20): Promise<Servant[]> {
+        const offset: number = page * limit
+        const resp: {[x: string]: any}[] = await AtlasAcademy.getServants(offset, offset + limit)
 
         let servants: Servant[] = []
-        for (let ndx: number = start; ndx < end; ndx++) {
+        for (let ndx: number = 0; ndx < limit; ndx++) {
             servants.push({
                 id: resp[ndx]['id'],
                 name: resp[ndx]['name'],
@@ -23,7 +24,7 @@ class ServantService {
     }
 
     static async servantDetails(id: number): Promise<ServantDetails> {
-        const resp = await AtlasAcademy.getServant(id)
+        const resp: {[x: string]: any} = await AtlasAcademy.getServant(id)
 
         let portraits: string[] = []
         for (const k in resp['extraAssets']['charaGraph']['ascension']) {

@@ -1,10 +1,9 @@
-# Elysia with Bun runtime
+# Paper Moon
 
-## Getting Started
-To get started with this template, simply paste this command into your terminal:
-```bash
-bun create elysia ./elysia-example
-```
+Paper Moon is an application for planning what materials are needed for the
+mobile game Fate/Grand Order.
+
+Paper Moon is written using the Elysia framework and the Bun runtime.
 
 ## Development
 To start the development server run:

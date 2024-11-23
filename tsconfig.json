@@ -15,7 +15,8 @@
     "strict": true,
     "skipLibCheck": true,
     "jsx": "react",
-    "jsxFactory": "elements.createElement",
+    "jsxFactory": "Html.createElement",
+    "jsxFragmentFactory": "Html.Fragment",
     "allowImportingTsExtensions": true
   }
 }

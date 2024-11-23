@@ -1,7 +1,6 @@
-import { html } from '@elysiajs/html'
+import { html, Html } from '@elysiajs/html'
 import { Elysia } from 'elysia'
 import { Base } from './components/base'
-import * as elements from 'typed-html'
 
 const views = new Elysia()
     .use(html())

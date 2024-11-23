@@ -1,6 +1,6 @@
-import * as elements from 'typed-html'
+import { Html } from '@elysiajs/html'
 
-const Base = ({ children }: elements.Children) => (
+const Base = ({ children }: JSX.ElementChildrenAttribute) => (
     <html lang="en" class="dark">
         <head>
             <meta charset="UTF-8" />

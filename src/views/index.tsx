@@ -6,10 +6,19 @@ const views = new Elysia()
     .use(html())
     .get('/', () => (
         <Base>
-            <h1 class='flex w-full h-screen justify-center items-center text-4xl font-bold'>
-                P A P E R&nbsp;&nbsp;&nbsp;M O O N
-            </h1>
+            <div
+                hx-get="/home"
+                hx-trigger="load"
+                hx-swap="innerHTML"
+                class='flex w-full h-screen justify-center items-center'
+            >
+            </div>
         </Base>
+    ))
+    .get('/home', () => (
+        <h1 class='text-4xl font-bold animate-fade-in'>
+            P A P E R&nbsp;&nbsp;&nbsp;M O O N
+        </h1>
     ))
 
 export { views }

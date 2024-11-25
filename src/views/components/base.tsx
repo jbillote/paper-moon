@@ -10,6 +10,7 @@ const Base = ({ children }: JSX.ElementChildrenAttribute) => (
             />
             <title>Paper Moon</title>
             <link href="/public/globals.css" rel="stylesheet" /> 
+            <script src="/public/htmx.min.js" />
         </head>
         <body>{children}</body>
     </html>

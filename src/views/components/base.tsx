@@ -1,4 +1,5 @@
 import { Html } from '@elysiajs/html'
+import { Header } from './header'
 
 const Base = ({ children }: JSX.ElementChildrenAttribute) => (
     <html lang="en" class="dark">
@@ -12,7 +13,10 @@ const Base = ({ children }: JSX.ElementChildrenAttribute) => (
             <link href="/public/globals.css" rel="stylesheet" /> 
             <script src="/public/htmx.min.js" />
         </head>
-        <body>{children}</body>
+        <body>
+            <Header />
+            {children}
+        </body>
     </html>
 )
 

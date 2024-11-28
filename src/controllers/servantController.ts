@@ -18,7 +18,10 @@ const servantController = new Elysia({ prefix: '/api/v1' })
             page: t.Optional(t.Number({ default: 0 })),
             limit: t.Optional(t.Number({ default: 20 }))
         }),
-        response: 'servant.list'
+        response: 'servant.list',
+        detail: {
+            tags: [ 'Servant' ]
+        }
     })
     .get('/servants/search', ({ query: { query }}) => {
         return ServantService.searchServants(query)
@@ -26,7 +29,10 @@ const servantController = new Elysia({ prefix: '/api/v1' })
         query: t.Object({
             query: t.String()
         }),
-        response: 'servant.list'
+        response: 'servant.list',
+        detail: {
+            tags: [ 'Servant' ]
+        }
     })
     .get('/servant/:id', ({ params: { id }}) => {
         return ServantService.servantDetails(id)
@@ -34,7 +40,10 @@ const servantController = new Elysia({ prefix: '/api/v1' })
         params: t.Object({
             id: t.Number()
         }),
-        response: 'servant.details'
+        response: 'servant.details',
+        detail: {
+            tags: [ 'Servant' ]
+        }
     })
 
 export { servantController }

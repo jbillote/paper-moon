@@ -3,7 +3,14 @@ import { servant } from '../models/servant'
 import { servantDetails } from '../models/servantDetails'
 import { ServantService } from '../services/servantService'
 
+const ServantModel = new Elysia()
+    .model({
+        'servant.list': t.Array(servant),
+        'servant.details': servantDetails
+    })
+
 const servantController = new Elysia({ prefix: '/api/v1' })
+    .use(ServantModel)
     .get('/servants', ({ query: { page, limit }}) => {
         return ServantService.allServants(page, limit)
     }, {
@@ -11,7 +18,7 @@ const servantController = new Elysia({ prefix: '/api/v1' })
             page: t.Optional(t.Number({ default: 0 })),
             limit: t.Optional(t.Number({ default: 20 }))
         }),
-        response: t.Array(servant)
+        response: 'servant.list'
     })
     .get('/servants/search', ({ query: { query }}) => {
         return ServantService.searchServants(query)
@@ -19,7 +26,7 @@ const servantController = new Elysia({ prefix: '/api/v1' })
         query: t.Object({
             query: t.String()
         }),
-        response: t.Array(servant)
+        response: 'servant.list'
     })
     .get('/servant/:id', ({ params: { id }}) => {
         return ServantService.servantDetails(id)
@@ -27,7 +34,7 @@ const servantController = new Elysia({ prefix: '/api/v1' })
         params: t.Object({
             id: t.Number()
         }),
-        response: servantDetails
+        response: 'servant.details'
     })
 
 export { servantController }

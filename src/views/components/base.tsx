@@ -9,7 +9,7 @@ const Base = ({ children }: JSX.ElementChildrenAttribute) => (
                 name="viewport"
                 content="width=device-width, inital-scale=1.0"
             />
-            <title>Paper Moon</title>
+            <title>PAPER MOON</title>
             <link href="/public/globals.css" rel="stylesheet" /> 
             <script src="/public/htmx.min.js" />
         </head>

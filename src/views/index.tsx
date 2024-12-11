@@ -14,7 +14,7 @@ const views = new Elysia()
                 hx-swap="innerHTML"
                 class='flex w-full justify-center items-center'
             >
-                <ServantListSkeleton />
+                <ServantListSkeleton showSearch={true} />
             </div>
         </Base>
     ))

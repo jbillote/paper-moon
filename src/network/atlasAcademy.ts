@@ -1,13 +1,13 @@
 // TODO: Implement more robust error checking for any network errors, JSON
 // parsing errors, and any potential type errors
 class AtlasAcademy {
-    static async getServants(start: number, end: number): Promise<{[x:string]: any}[]> {
+    static async getServants(): Promise<{[x:string]: any}[]> {
         // TODO: Cache this JSON file since it shouldn't change very often
         const url: string = "https://api.atlasacademy.io/export/JP/basic_servant_lang_en.json"
         const resp: Response = await fetch(url)
         const respJson: {[x: string]: any}[] = await resp.json() as {[x: string]: any}[]
 
-        return [...respJson.slice(start, end)]
+        return respJson
     }
 
     static async searchServants(query: string): Promise<{[x: string]: any}[]> {

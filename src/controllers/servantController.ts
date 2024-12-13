@@ -1,11 +1,11 @@
 import { Elysia, t } from 'elysia'
-import { servant } from '../models/servant'
+import { paginatedServantList } from '../models/paginatedServantList'
 import { servantDetails } from '../models/servantDetails'
 import { ServantService } from '../services/servantService'
 
 const ServantModel = new Elysia()
     .model({
-        'servant.list': t.Array(servant),
+        'servant.list': paginatedServantList,
         'servant.details': servantDetails
     })
 
@@ -23,11 +23,13 @@ const servantController = new Elysia({ prefix: '/api/v1' })
             tags: [ 'Servant' ]
         }
     })
-    .get('/servants/search', ({ query: { query }}) => {
-        return ServantService.searchServants(query)
+    .get('/servants/search', ({ query: { query, page, limit }}) => {
+        return ServantService.searchServants(query, page, limit)
     }, {
         query: t.Object({
-            query: t.String()
+            query: t.String(),
+            page: t.Optional(t.Number({ default: 0 })),
+            limit: t.Optional(t.Number({ default: 20 }))
         }),
         response: 'servant.list',
         detail: {

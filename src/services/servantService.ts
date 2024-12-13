@@ -1,16 +1,17 @@
 import { Material } from "../models/material"
+import { PaginatedServantList } from "../models/paginatedServantList"
 import { Servant } from "../models/servant"
 import { ServantDetails } from "../models/servantDetails"
 import { Skill } from "../models/skill"
 import { AtlasAcademy } from "../network/atlasAcademy"
 
 class ServantService {
-    static async allServants(page: number = 0, limit: number = 20): Promise<Servant[]> {
-        const offset: number = page * limit
-        const resp: {[x: string]: any}[] = await AtlasAcademy.getServants(offset, offset + limit)
+    static async allServants(page: number = 0, pageSize: number = 20): Promise<PaginatedServantList> {
+        const offset: number = page * pageSize
+        const resp: {[x: string]: any}[] = await AtlasAcademy.getServants()
 
         let servants: Servant[] = []
-        for (let ndx: number = 0; ndx < limit; ndx++) {
+        for (let ndx: number = offset; ndx < offset + pageSize; ndx++) {
             servants.push({
                 id: resp[ndx]['id'],
                 name: resp[ndx]['name'],
@@ -20,24 +21,43 @@ class ServantService {
             })
         }
 
-        return servants
+        return {
+            servants: servants,
+            page: {
+                totalServants: resp.length,
+                currentPage: page,
+                pageSize: pageSize,
+                start: offset,
+                end: offset + pageSize - 1
+            }
+        }
     }
 
-    static async searchServants(query: string): Promise<Servant[]> {
+    static async searchServants(query: string, page: number = 0, pageSize: number = 20): Promise<PaginatedServantList> {
+        const offset: number = page * pageSize
         const resp: {[x: string]: any}[] = await AtlasAcademy.searchServants(query)
 
         let servants: Servant[] = []
-        for (const servant of resp) {
+        for (let ndx: number = offset; ndx < offset + pageSize; ndx++) {
             servants.push({
-                id: servant['id'],
-                name: servant['name'],
-                classIcon: AtlasAcademy.classIconURL(servant['classId'], servant['rarity']),
-                rarity: servant['rarity'],
-                icon: servant['face']
+                id: resp[ndx]['id'],
+                name: resp[ndx]['name'],
+                classIcon: AtlasAcademy.classIconURL(resp[ndx]['classId'], resp[ndx]['rarity']),
+                rarity: resp[ndx]['rarity'],
+                icon: resp[ndx]['face']
             })
         }
 
-        return servants
+        return {
+            servants: servants,
+            page: {
+                totalServants: resp.length,
+                currentPage: page,
+                pageSize: pageSize,
+                start: offset,
+                end: offset + pageSize - 1
+            }
+        }
     }
 
     static async servantDetails(id: number): Promise<ServantDetails> {

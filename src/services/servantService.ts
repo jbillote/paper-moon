@@ -11,7 +11,7 @@ class ServantService {
         const resp: {[x: string]: any}[] = await AtlasAcademy.getServants()
 
         let servants: Servant[] = []
-        for (let ndx: number = offset; ndx < offset + pageSize; ndx++) {
+        for (let ndx: number = offset; ndx < resp.length && ndx < offset + pageSize; ndx++) {
             servants.push({
                 id: resp[ndx]['id'],
                 name: resp[ndx]['name'],
@@ -38,7 +38,7 @@ class ServantService {
         const resp: {[x: string]: any}[] = await AtlasAcademy.searchServants(query)
 
         let servants: Servant[] = []
-        for (let ndx: number = offset; ndx < offset + pageSize; ndx++) {
+        for (let ndx: number = offset; ndx < resp.length && ndx < offset + pageSize; ndx++) {
             servants.push({
                 id: resp[ndx]['id'],
                 name: resp[ndx]['name'],

@@ -1,4 +1,5 @@
 import { Html } from '@elysiajs/html'
+import { Footer } from './footer'
 import { Header } from './header'
 
 const Base = ({ children }: JSX.ElementChildrenAttribute) => (
@@ -17,6 +18,7 @@ const Base = ({ children }: JSX.ElementChildrenAttribute) => (
             <Header />
             {children}
         </body>
+        <Footer />
     </html>
 )
 

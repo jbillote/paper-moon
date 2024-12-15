@@ -2,7 +2,7 @@ import { Elysia } from "elysia"
 import { staticPlugin } from '@elysiajs/static'
 import { swagger } from '@elysiajs/swagger'
 import { servantController } from "./controllers/servantController"
-import { views } from "./views"
+import { views } from "./views/views"
 
 const app = new Elysia()
   .use(staticPlugin())

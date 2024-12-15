@@ -1,7 +1,7 @@
 import { Html } from "@elysiajs/html"
 
 const Footer = () => (
-    <footer class='footer bg-base-300 text-base-content p-2'>
+    <footer class="footer bg-base-300 text-base-content p-2">
         <aside>
             <a
                 href="https://github.com/jbillote/paper-moon"

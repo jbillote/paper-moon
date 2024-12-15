@@ -8,15 +8,15 @@ const searchPage = new Elysia()
     .use(html())
     .get('/search', async ({ query: { query, page, limit } }) => {
         var servants: PaginatedServantList
-        if (query === "") {
+        if (query === '') {
             servants = await ServantService.allServants(page, limit)
         } else {
             servants = await ServantService.searchServants(query, page, limit)
         }
 
         return (
-            <div id='search-results'
-                 class='flex flex-col items-start w-11/12 mb-5'
+            <div id="search-results"
+                 class="flex flex-col items-start w-11/12 mb-5"
             >
                 {servants.servants.map((servant) => (
                     <ServantSearchResult servant={servant} />

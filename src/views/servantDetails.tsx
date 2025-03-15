@@ -13,28 +13,30 @@ const servantDetailsPage = new Elysia()
         let servant = await ServantService.servantDetails(id)
 
         return (
-            <div class="h-5/6 w-11/12 grid grid-cols-10 grid-rows-5 gap-4 my-5">
-                <div class="row-span-5 col-span-4">
-                    <img class="w-full" src={servant.portraits[3]} />
+            <div class="h-5/6 w-11/12 grid grid-cols-12 grid-rows-12 gap-4 ">
+                <div class="col-span-4 row-span-12">
+                    <img class="w-fit" src={servant.portraits[3]} />
                 </div>
-                <div class="col-span-6 row-span-1">
-                    <img
-                        class="w-12 h-12"
-                        src={servant.classIcon}
-                    />
-                    <span class="text-lg font-bold">{servant.name}</span>
-                </div>
-                <div class="col-span-2">
-                    <span class="font-bold">Ascension</span>
-                </div>
-                <div class="col-span-2">
-                    <span class="font-bold">Skills</span>
-                </div>
-                <div class="col-span-2">
-                    <span class="font-bold">Appends</span>
-                </div>
-                <div class="col-span-10 row-span-1">
-                    <span class="text-lg font-bold">Materials</span>
+                <div class="col-span-8 row-span-12 grid grid-rows-12">
+                    <div class="col-span-12 row-span-1 inline-flex">
+                        <img
+                            class="w-12 h-12"
+                            src={servant.classIcon}
+                        />
+                        <span class="text-lg font-bold px-4 my-2">{servant.name}</span>
+                    </div>
+                    <div class="col-span-4 row-span-9 py-2">
+                        <span class="text-lg font-bold">Ascension</span>
+                    </div>
+                    <div class="col-span-4 row-span-9 py-2">
+                        <span class="text-lg font-bold">Skills</span>
+                    </div>
+                    <div class="col-span-4 row-span-9 py-2">
+                        <span class="text-lg font-bold">Appends</span>
+                    </div>
+                    <div class="col-span-12 row-span-2">
+                        <span class="text-lg font-bold">Materials</span>
+                    </div>
                 </div>
             </div>
         )

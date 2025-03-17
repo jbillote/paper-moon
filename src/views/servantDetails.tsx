@@ -1,5 +1,8 @@
 import { html, Html } from '@elysiajs/html'
 import { Elysia, t } from 'elysia'
+import { AppendPicker } from './components/appendPicker'
+import { AscensionPicker } from './components/ascensionPicker'
+import { SkillPicker } from './components/skillPicker'
 import { ServantService } from '../services/servantService'
 
 const skill = t.Object({
@@ -25,14 +28,17 @@ const servantDetailsPage = new Elysia()
                         />
                         <span class="text-lg font-bold px-4 my-2">{servant.name}</span>
                     </div>
-                    <div class="col-span-4 row-span-9 py-2">
+                    <div class="col-span-4 row-span-9 px-2 py-2">
                         <span class="text-lg font-bold">Ascension</span>
+                        <AscensionPicker servantId={id} />
                     </div>
-                    <div class="col-span-4 row-span-9 py-2">
+                    <div class="col-span-4 row-span-9 px-2 py-2">
                         <span class="text-lg font-bold">Skills</span>
+                        <SkillPicker servant={servant} />
                     </div>
-                    <div class="col-span-4 row-span-9 py-2">
+                    <div class="col-span-4 row-span-9 px-2 py-2">
                         <span class="text-lg font-bold">Appends</span>
+                        <AppendPicker servant={servant} />
                     </div>
                     <div class="col-span-12 row-span-2">
                         <span class="text-lg font-bold">Materials</span>

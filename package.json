@@ -7,12 +7,12 @@
     "dev": "concurrently \"bun run --watch src/index.ts\" \"bun run build --watch\""
   },
   "dependencies": {
-    "@bogeychan/elysia-logger": "^0.1.8",
     "@elysiajs/html": "^1.1.1",
     "@elysiajs/static": "^1.1.1",
     "@elysiajs/swagger": "^1.1.6",
     "crypto": "^1.0.1",
     "elysia": "^1.1.25",
+    "pino": "^9.6.0",
     "pino-pretty": "^13.0.0"
   },
   "devDependencies": {

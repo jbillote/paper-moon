@@ -1,24 +1,14 @@
 import { Elysia } from 'elysia'
-import { logger, type InferContext } from '@bogeychan/elysia-logger'
+import { pino } from 'pino'
 import { RequestID } from './requestId'
 
-const Logger = new Elysia()
+// TODO: Figure out how to integrate request ID
+const ElysiaLogger = pino(pino.transport({
+    target: 'pino-pretty'
+}))
 
-Logger
+const Logger = new Elysia({ name: 'logger' })
     .use(RequestID)
-    .use(logger({
-        transport: {
-            target: 'pino-pretty',
-            options: {
-                colorize: true
-            }
-        },
-        autoLogging: false,
-        customProps(ctx: InferContext<typeof Logger>) {
-            return {
-                requestID: ctx.requestID
-            }
-        }
-    }))
+    .decorate('log', ElysiaLogger)
 
 export { Logger }

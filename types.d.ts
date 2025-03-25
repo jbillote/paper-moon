@@ -39,5 +39,8 @@ declare namespace JSX {
       'hx-vars'?: string;
       'ws-connect'?: string;
       'ws-send'?: string;
+
+      // Custom, used for hx-include selection
+      'param'?
     }
 }

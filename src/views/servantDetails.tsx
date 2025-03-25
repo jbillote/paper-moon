@@ -4,6 +4,7 @@ import { AppendPicker } from './components/appendPicker'
 import { AscensionPicker } from './components/ascensionPicker'
 import { SkillPicker } from './components/skillPicker'
 import { ServantService } from '../services/servantService'
+import { Logger } from '../utils/logger'
 
 const skill = t.Object({
     startingLevel: t.Number(),
@@ -11,6 +12,7 @@ const skill = t.Object({
 })
 
 const servantDetailsPage = new Elysia()
+    .use(Logger)
     .use(html())
     .get('/servant/:id', async ({ params: { id }}) => {
         let servant = await ServantService.servantDetails(id)
@@ -30,7 +32,7 @@ const servantDetailsPage = new Elysia()
                     </div>
                     <div class="col-span-4 row-span-9 px-2 py-2">
                         <span class="text-lg font-bold">Ascension</span>
-                        <AscensionPicker servantId={id} />
+                        <AscensionPicker servant={servant} />
                     </div>
                     <div class="col-span-4 row-span-9 px-2 py-2">
                         <span class="text-lg font-bold">Skills</span>
@@ -42,6 +44,7 @@ const servantDetailsPage = new Elysia()
                     </div>
                     <div class="col-span-12 row-span-2">
                         <span class="text-lg font-bold">Materials</span>
+                        <div id="materials"></div>
                     </div>
                 </div>
             </div>
@@ -51,8 +54,18 @@ const servantDetailsPage = new Elysia()
             id: t.Number()
         })
     })
-    .post('/servant:/id/materials', async ({ params: { id }, body }) => {
-        console.log(body)
+    .get('/servant/:id/materials', async ({ params: { id }, query, log}) => {
+        log.info(query)
+        log.info(`Fetching details for servant with ID ${id}`)
+        let servant = await ServantService.servantDetails(id)
+
+        log.info('Calculating materials required')
+
+        log.info(`Calculating materials for ascension ${query.ascensionStart} to ${query.ascensionEnd}`)
+        for (let ndx = query.ascensionStart; ndx < query.ascensionEnd; ndx++) {
+
+        }
+
         return (
             <h1 class="w-full items-center text-4xl font-bold">MATERIALS</h1>
         )
@@ -60,14 +73,31 @@ const servantDetailsPage = new Elysia()
         params: t.Object({
             id: t.Number()
         }),
-        body: t.Object({
-            ascension: t.Object({
-                start: t.Number(),
-                end: t.Number()
-            }),
-            skills: t.Array(skill),
-            appends: t.Array(skill)
+        query: t.Object({
+            ascensionStart: t.Number(),
+	        ascensionEnd: t.Number(),
+	        skill1Start: t.Number(),
+            skill1End: t.Number(),
+            skill2Start: t.Number(),
+            skill2End: t.Number(),
+            skill3Start: t.Number(),
+            skill3End: t.Number(),
+            append1Start: t.Number(),
+            append1End: t.Number(),
+            append2Start: t.Number(),
+            append2End: t.Number(),
+            append3Start: t.Number(),
+            append3End: t.Number()
         })
+        // body: t.Object({
+        //     // ascensionStart: t.Number()
+        //     // ascension: t.Object({
+        //     //     start: t.Number(),
+        //     //     // end: t.Number()
+        //     // }),
+        //     // skills: t.Array(skill),
+        //     // appends: t.Array(skill)
+        // })
     })
 
 export { servantDetailsPage }

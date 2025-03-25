@@ -1,6 +1,7 @@
+import { ServantDetails } from "../../models/servantDetails"
 import { Html } from "@elysiajs/html"
 
-function AscensionPicker({ servantId }: { servantId: number }): JSX.Element {
+function AscensionPicker({ servant }: { servant: ServantDetails }): JSX.Element {
     return (
         <div class="grid grid-rows-1">
             <div class="grid grid-cols-2">
@@ -9,11 +10,11 @@ function AscensionPicker({ servantId }: { servantId: number }): JSX.Element {
                         <div class="label">
                             <span class="label-text">Start</span>
                         </div>
-                        <select class="select select-bordered">
-                            <option selected>1</option>
-                            <option>2</option>
-                            <option>3</option>
-                            <option>4</option>
+                        <select class="select select-bordered" hx-get={`/servant/${servant.id}/materials`} hx-target="#materials" hx-include="[param]" name="ascensionStart" param >
+                            <option value="1" selected>1</option>
+                            <option value="2">2</option>
+                            <option value="3">3</option>
+                            <option value="4">4</option>
                         </select>
                     </label>
                 </div>
@@ -22,11 +23,11 @@ function AscensionPicker({ servantId }: { servantId: number }): JSX.Element {
                         <div class="label">
                             <span class="label-text">End</span>
                         </div>
-                        <select class="select select-bordered">
-                            <option selected>1</option>
-                            <option>2</option>
-                            <option>3</option>
-                            <option>4</option>
+                        <select class="select select-bordered" hx-get={`/servant/${servant.id}/materials`} hx-target="#materials" hx-include="[param]" name="ascensionEnd" param>
+                            <option value="1" selected>1</option>
+                            <option value="2">2</option>
+                            <option value="3">3</option>
+                            <option value="4">4</option>
                         </select>
                     </label>
                 </div>

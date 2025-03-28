@@ -48,5 +48,4 @@ branch contains the configuration to deploy on [Zerops](https://zerops.io/).
 - Finish implementing logging, including X-Request-ID
 - Allow switching of portrait on details page
 - Implement proper page history navigation
-- Handle cases with no ascension materials in a way that doesn't return HTTP 500
 - Look into relatively high memory usage as HTML is swapped in and out

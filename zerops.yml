@@ -14,7 +14,6 @@ zerops:
       # select which files / folders to deploy
       # after the build successfully finished
       deployFiles:
-        - dist
         - package.json
         - node_modules
 
@@ -22,7 +21,7 @@ zerops:
       # to cache for the next build run
       cache:
         - node_modules
-        - bun.lockb
+        - bun.lock
 
     # ==== how to run your application ====
     run:

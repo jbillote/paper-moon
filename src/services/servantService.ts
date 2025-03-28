@@ -1,4 +1,4 @@
-import { Material } from "../models/material"
+import { material, Material } from "../models/material"
 import { PaginatedServantList } from "../models/paginatedServantList"
 import { Servant } from "../models/servant"
 import { ServantDetails } from "../models/servantDetails"
@@ -98,6 +98,34 @@ class ServantService {
         }
     }
 
+    static async servantMaterials(id: number, materials: Material[], ascensionStart: number, ascensionEnd: number,
+        skill1Start: number, skill1End: number, skill2Start: number, skill2End: number,
+        skill3Start: number, skill3End: number, append1Start: number, append1End: number,
+        append2Start: number, append2End: number, append3Start: number, append3End: number,
+        append4Start: number, append4End: number, append5Start: number, append5End: number
+    ): Promise<number> {
+        const servant = await AtlasAcademy.getServant(id)
+        const ascensionMaterials = this.materials(servant['ascensionMaterials'])
+        const skillMaterials = this.materials(servant['skillMaterials'])
+        const appendMaterials = this.materials(servant['appendSkillMaterials'])
+
+        let qp = 0
+
+        qp += this.calculateMaterials(materials, ascensionMaterials, ascensionStart, ascensionEnd)
+
+        qp += this.calculateMaterials(materials, skillMaterials, skill1Start, skill1End)
+        qp += this.calculateMaterials(materials, skillMaterials, skill2Start, skill2End)
+        qp += this.calculateMaterials(materials, skillMaterials, skill3Start, skill3End)
+
+        qp += this.calculateMaterials(materials, appendMaterials, append1Start, append1End)
+        qp += this.calculateMaterials(materials, appendMaterials, append2Start, append2End)
+        qp += this.calculateMaterials(materials, appendMaterials, append3Start, append3End)
+        qp += this.calculateMaterials(materials, appendMaterials, append4Start, append4End)
+        qp += this.calculateMaterials(materials, appendMaterials, append5Start, append5End)
+
+        return qp
+    }
+
     private static materials(materialResp: {[x: string]: any}): {qp: number, materials: Material[]}[] {
         let materials: {qp: number, materials: Material[]}[] = []
         for (const o in materialResp) {
@@ -118,6 +146,28 @@ class ServantService {
         }
 
         return materials
+    }
+
+    private static calculateMaterials(existingMaterials: Material[], requiredMaterials: {qp: number, materials: Material[]}[], start: number, end: number): number {
+        let qp = 0
+        
+        for (let ndx = start; ndx < end; ndx++) {
+            qp += requiredMaterials[ndx].qp
+
+            for (let materialNdx = 0; materialNdx < requiredMaterials[ndx].materials.length; materialNdx++) {
+                let existingNdx = existingMaterials.findIndex(value => {
+                    return value.id === requiredMaterials[ndx].materials[materialNdx].id
+                })
+
+                if (existingNdx < 0) {
+                    existingMaterials.push({...requiredMaterials[ndx].materials[materialNdx]})
+                } else {
+                    existingMaterials[existingNdx].amount += requiredMaterials[ndx].materials[materialNdx].amount
+                }
+            }
+        }
+        
+        return qp
     }
 }
 

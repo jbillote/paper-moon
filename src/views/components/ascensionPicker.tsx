@@ -11,10 +11,11 @@ function AscensionPicker({ servant }: { servant: ServantDetails }): JSX.Element 
                             <span class="label-text">Start</span>
                         </div>
                         <select class="select select-bordered" hx-get={`/servant/${servant.id}/materials`} hx-target="#materials" hx-include="[param]" name="ascensionStart" param >
-                            <option value="0" selected>1</option>
-                            <option value="1">2</option>
-                            <option value="2">3</option>
-                            <option value="3">4</option>
+                            <option value="0" selected>0</option>
+                            <option value="1" >1</option>
+                            <option value="2">2</option>
+                            <option value="3">3</option>
+                            <option value="4">4</option>
                         </select>
                     </label>
                 </div>
@@ -24,10 +25,11 @@ function AscensionPicker({ servant }: { servant: ServantDetails }): JSX.Element 
                             <span class="label-text">End</span>
                         </div>
                         <select class="select select-bordered" hx-get={`/servant/${servant.id}/materials`} hx-target="#materials" hx-include="[param]" name="ascensionEnd" param>
-                            <option value="0" selected>1</option>
-                            <option value="1">2</option>
-                            <option value="2">3</option>
-                            <option value="3">4</option>
+                            <option value="0" selected>0</option>
+                            <option value="1">1</option>
+                            <option value="2">2</option>
+                            <option value="3">3</option>
+                            <option value="4">4</option>
                         </select>
                     </label>
                 </div>

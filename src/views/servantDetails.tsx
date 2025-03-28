@@ -7,11 +7,6 @@ import { Material } from '../models/material'
 import { ServantService } from '../services/servantService'
 import { Logger } from '../utils/logger'
 
-const skill = t.Object({
-    startingLevel: t.Number(),
-    endingLevel: t.Number()
-})
-
 const servantDetailsPage = new Elysia()
     .use(Logger)
     .use(html())
@@ -44,11 +39,11 @@ const servantDetailsPage = new Elysia()
                         <AppendPicker servant={servant} />
                     </div>
                 </div>
-                <div class="col-span-12 row-span-2 grid grid-rows-2 h-fit overflow-hidden">
-                    <div class="col-span-12 row-span-1">
+                <div class="col-span-12 row-span-2 h-fit text-center">
+                    <div>
                         <span class="text-2xl font-bold">Materials</span>
                     </div>
-                    <div id="materials" class="col-span-12 row-span-1"></div>
+                    <div id="materials" class="text-center"></div>
                 </div>
             </div>
         )
@@ -76,11 +71,11 @@ const servantDetailsPage = new Elysia()
         }
 
         return (
-            <div class="inline-grid grid-cols-12 grid-rows-2">
+            <div class="flex flex-wrap justify-center gap-4">
                 {materials.map((material) => (
-                    <div class="col-span-1 row-span-1">
-                        <img src={material.icon} alt={material.name} class="w-12 text-center" />
-                        <div class="text-center">{material.amount}</div>
+                    <div class="text-center">
+                        <img src={material.icon} alt={material.name} class="w-12" />
+                        <div>{material.amount}</div>
                     </div>
                 ))}
             </div>

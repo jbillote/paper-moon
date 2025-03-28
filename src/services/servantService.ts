@@ -151,7 +151,7 @@ class ServantService {
     private static calculateMaterials(existingMaterials: Material[], requiredMaterials: {qp: number, materials: Material[]}[], start: number, end: number): number {
         let qp = 0
         
-        for (let ndx = start; ndx < end; ndx++) {
+        for (let ndx = start; ndx < requiredMaterials.length && ndx < end; ndx++) {
             qp += requiredMaterials[ndx].qp
 
             for (let materialNdx = 0; materialNdx < requiredMaterials[ndx].materials.length; materialNdx++) {

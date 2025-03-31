@@ -5,6 +5,8 @@
     "build": "tailwindcss -i ./src/views/styles/globals.css -o ./public/globals.css",
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "concurrently \"bun run --watch src/index.ts\" \"bun run build --watch\"",
+    "lint": "eslint --report-unused-disable-directives",
+    "lint:fix": "eslint --report-unused-disable-directives --fix",
     "start": "bun run src/index.ts"
   },
   "dependencies": {
@@ -17,10 +19,22 @@
     "pino-pretty": "^13.0.0"
   },
   "devDependencies": {
+    "@eslint/compat": "^1.2.7",
+    "@eslint/eslintrc": "^3.3.1",
+    "@eslint/js": "^9.23.0",
+    "@ianvs/prettier-plugin-sort-imports": "^4.4.1",
     "@tailwindcss/typography": "^0.5.15",
+    "@typescript-eslint/eslint-plugin": "^8.28.0",
+    "@typescript-eslint/parser": "^8.28.0",
     "bun-types": "latest",
     "concurrently": "^9.1.0",
     "daisyui": "^4.12.14",
+    "eslint": "^9.23.0",
+    "eslint-config-prettier": "^10.1.1",
+    "eslint-plugin-import": "^2.31.0",
+    "eslint-plugin-prettier": "^5.2.5",
+    "prettier": "^3.5.3",
+    "prettier-plugin-tailwindcss": "^0.6.11",
     "tailwindcss": "^3.4.15",
     "tailwindcss-animate": "^1.0.7"
   },

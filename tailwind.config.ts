@@ -1,4 +1,4 @@
-import type { Config } from 'tailwindcss';
+import { type Config } from 'tailwindcss'
 
 const config: Config = {
   darkMode: ['class'],
@@ -63,28 +63,24 @@ const config: Config = {
         },
         'fade-in': {
           '0%': {
-            'opacity': '0'
+            opacity: '0',
           },
           '100%': {
-            'opacity': '1'
-          }
-        }
+            opacity: '1',
+          },
+        },
       },
       animation: {
         'accordion-down': 'accordion-down 0.2s ease-out',
         'accordion-up': 'accordion-up 0.2s ease-out',
-        'fade-in': 'fade-in 1.5s ease-in-out'
+        'fade-in': 'fade-in 1.5s ease-in-out',
       },
     },
   },
-  plugins: [
-    require('tailwindcss-animate'),
-    require('@tailwindcss/typography'),
-    require('daisyui')
-  ],
+  plugins: [require('tailwindcss-animate'), require('@tailwindcss/typography'), require('daisyui')],
   daisyui: {
-    logs: false
-  }
-};
+    logs: false,
+  },
+}
 
-export default config;
+export default config

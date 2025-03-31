@@ -1,5 +1,5 @@
 import { html, Html } from '@elysiajs/html'
-import { Elysia, t } from 'elysia'
+import { Elysia } from 'elysia'
 import { PaginatedServantList } from '../models/paginatedServantList'
 import { ServantService } from '../services/servantService'
 import { Base } from './components/base'

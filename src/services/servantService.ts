@@ -1,4 +1,4 @@
-import { material, type Material } from '../models/material'
+import { type Material } from '../models/material'
 import { type PaginatedServantList } from '../models/paginatedServantList'
 import { type Servant } from '../models/servant'
 import { type ServantDetails } from '../models/servantDetails'

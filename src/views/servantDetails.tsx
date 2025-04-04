@@ -8,7 +8,14 @@ import { AscensionPicker } from './components/ascensionPicker'
 import { SkillPicker } from './components/skillPicker'
 
 const servantDetailsPage = new Elysia()
+
+servantDetailsPage
   .use(Logger)
+  .derive({ as: 'scoped' }, (ctx) => {
+    return {
+      log: ctx.log.child({ component: 'servantDetailsPage' }),
+    }
+  })
   .use(html())
   .get(
     '/servant/:id',

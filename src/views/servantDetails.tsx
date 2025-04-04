@@ -11,16 +11,21 @@ const servantDetailsPage = new Elysia()
 
 servantDetailsPage
   .use(Logger)
-  .derive({ as: 'scoped' }, (ctx) => {
+  .derive({ as: 'scoped' }, ({ log }) => {
     return {
-      log: ctx.log.child({ component: 'servantDetailsPage' }),
+      servantService: new ServantService(log),
+    }
+  })
+  .derive({ as: 'scoped' }, ({ log }) => {
+    return {
+      log: log.child({ component: 'servantDetailsPage' }),
     }
   })
   .use(html())
   .get(
     '/servant/:id',
-    async ({ params: { id } }) => {
-      const servant = await ServantService.servantDetails(id)
+    async ({ params: { id }, servantService }) => {
+      const servant = await servantService.servantDetails(id)
 
       return (
         <div class="grid w-11/12 grid-cols-12 grid-rows-12 gap-4">
@@ -62,10 +67,10 @@ servantDetailsPage
   )
   .get(
     '/servant/:id/materials',
-    async ({ params: { id }, query, log }) => {
+    async ({ params: { id }, query, log, servantService }) => {
       log.info(`Fetching materials for servant with ID ${id}`)
       const materials: Material[] = []
-      const qp = await ServantService.servantMaterials(
+      const qp = await servantService.servantMaterials(
         id,
         materials,
         query.ascensionStart,

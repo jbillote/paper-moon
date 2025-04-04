@@ -11,12 +11,22 @@ const ServantModel = new Elysia().model({
 
 const servantController = new Elysia({ prefix: '/api/v1' })
   .use(Logger)
+  .derive({ as: 'scoped' }, ({ log }) => {
+    return {
+      servantService: new ServantService(log),
+    }
+  })
+  .derive({ as: 'scoped' }, ({ log }) => {
+    return {
+      log: log.child({ component: 'servantController' }),
+    }
+  })
   .use(ServantModel)
   .get(
     '/servants',
-    ({ query: { page, limit }, log }) => {
+    ({ query: { page, limit }, log, servantService }) => {
       log.info(`Call to GET /servants, page=${page}, limit=${limit}`)
-      return ServantService.allServants(page, limit)
+      return servantService.allServants(page, limit)
     },
     {
       query: t.Object({
@@ -31,9 +41,9 @@ const servantController = new Elysia({ prefix: '/api/v1' })
   )
   .get(
     '/servants/search',
-    ({ query: { query, page, limit }, log }) => {
+    ({ query: { query, page, limit }, log, servantService }) => {
       log.info(`Call to GET /servants/search, query=${query}, page=${page}, limit=${limit}`)
-      return ServantService.searchServants(query, page, limit)
+      return servantService.searchServants(query, page, limit)
     },
     {
       query: t.Object({
@@ -49,9 +59,9 @@ const servantController = new Elysia({ prefix: '/api/v1' })
   )
   .get(
     '/servant/:id',
-    ({ params: { id }, log }) => {
+    ({ params: { id }, log, servantService }) => {
       log.info(`Call to GET /servant/, id=${id}`)
-      return ServantService.servantDetails(id)
+      return servantService.servantDetails(id)
     },
     {
       params: t.Object({

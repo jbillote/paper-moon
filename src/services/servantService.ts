@@ -1,3 +1,4 @@
+import { type Logger } from 'pino'
 import { type Material } from '../models/material'
 import { type PaginatedServantList } from '../models/paginatedServantList'
 import { type Servant } from '../models/servant'
@@ -6,16 +7,24 @@ import { type Skill } from '../models/skill'
 import { AtlasAcademy } from '../network/atlasAcademy'
 
 class ServantService {
-  static async allServants(page = 0, pageSize = 20): Promise<PaginatedServantList> {
+  private logger: Logger
+  private atlasAcademy: AtlasAcademy
+
+  constructor(logger: Logger) {
+    this.logger = logger.child({ component: 'ServantService' })
+    this.atlasAcademy = new AtlasAcademy(logger)
+  }
+
+  async allServants(page = 0, pageSize = 20): Promise<PaginatedServantList> {
     const offset: number = page * pageSize
-    const resp: Record<string, any>[] = await AtlasAcademy.getServants()
+    const resp: Record<string, any>[] = await this.atlasAcademy.getServants()
 
     const servants: Servant[] = []
     for (let ndx: number = offset; ndx < resp.length && ndx < offset + pageSize; ndx++) {
       servants.push({
         id: resp[ndx].id,
         name: resp[ndx].name,
-        classIcon: AtlasAcademy.classIconURL(resp[ndx].classId, resp[ndx].rarity),
+        classIcon: this.atlasAcademy.classIconURL(resp[ndx].classId, resp[ndx].rarity),
         rarity: resp[ndx].rarity,
         icon: resp[ndx].face,
       })
@@ -33,20 +42,16 @@ class ServantService {
     }
   }
 
-  static async searchServants(
-    query: string,
-    page = 0,
-    pageSize = 20,
-  ): Promise<PaginatedServantList> {
+  async searchServants(query: string, page = 0, pageSize = 20): Promise<PaginatedServantList> {
     const offset: number = page * pageSize
-    const resp: Record<string, any>[] = await AtlasAcademy.searchServants(query)
+    const resp: Record<string, any>[] = await this.atlasAcademy.searchServants(query)
 
     const servants: Servant[] = []
     for (let ndx: number = offset; ndx < resp.length && ndx < offset + pageSize; ndx++) {
       servants.push({
         id: resp[ndx].id,
         name: resp[ndx].name,
-        classIcon: AtlasAcademy.classIconURL(resp[ndx].classId, resp[ndx].rarity),
+        classIcon: this.atlasAcademy.classIconURL(resp[ndx].classId, resp[ndx].rarity),
         rarity: resp[ndx].rarity,
         icon: resp[ndx].face,
       })
@@ -64,8 +69,8 @@ class ServantService {
     }
   }
 
-  static async servantDetails(id: number): Promise<ServantDetails> {
-    const resp: Record<string, any> = await AtlasAcademy.getServant(id)
+  async servantDetails(id: number): Promise<ServantDetails> {
+    const resp: Record<string, any> = await this.atlasAcademy.getServant(id)
 
     const portraits: string[] = []
     for (const k in resp.extraAssets.charaGraph.ascension) {
@@ -91,7 +96,7 @@ class ServantService {
     return {
       id: resp.id,
       name: resp.name,
-      classIcon: AtlasAcademy.classIconURL(resp.classId, resp.rarity),
+      classIcon: this.atlasAcademy.classIconURL(resp.classId, resp.rarity),
       icon: resp.extraAssets.faces.ascension['1'],
       portraits: portraits,
       skills: skills,
@@ -102,7 +107,7 @@ class ServantService {
     }
   }
 
-  static async servantMaterials(
+  async servantMaterials(
     id: number,
     materials: Material[],
     ascensionStart: number,
@@ -124,7 +129,7 @@ class ServantService {
     append5Start: number,
     append5End: number,
   ): Promise<number> {
-    const servant = await AtlasAcademy.getServant(id)
+    const servant = await this.atlasAcademy.getServant(id)
     const ascensionMaterials = this.materials(servant.ascensionMaterials)
     const skillMaterials = this.materials(servant.skillMaterials)
     const appendMaterials = this.materials(servant.appendSkillMaterials)
@@ -146,9 +151,7 @@ class ServantService {
     return qp
   }
 
-  private static materials(
-    materialResp: Record<string, any>,
-  ): { qp: number; materials: Material[] }[] {
+  private materials(materialResp: Record<string, any>): { qp: number; materials: Material[] }[] {
     const materials: { qp: number; materials: Material[] }[] = []
     for (const o in materialResp) {
       const items: Material[] = []
@@ -170,7 +173,7 @@ class ServantService {
     return materials
   }
 
-  private static calculateMaterials(
+  private calculateMaterials(
     existingMaterials: Material[],
     requiredMaterials: { qp: number; materials: Material[] }[],
     start: number,

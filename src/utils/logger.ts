@@ -2,13 +2,16 @@ import { Elysia } from 'elysia'
 import { pino } from 'pino'
 import { RequestID } from './requestId'
 
-// TODO: Figure out how to integrate request ID
-const ElysiaLogger = pino(
-  pino.transport({
-    target: 'pino-pretty',
-  }),
-)
+const Logger = new Elysia({ name: 'logger' }).use(RequestID).derive({ as: 'global' }, (ctx) => {
+  const log = pino(
+    pino.transport({
+      target: 'pino-pretty',
+    }),
+  ).child({ requestID: ctx.requestID })
 
-const Logger = new Elysia({ name: 'logger' }).use(RequestID).decorate('log', ElysiaLogger)
+  return {
+    log: log,
+  }
+})
 
 export { Logger }

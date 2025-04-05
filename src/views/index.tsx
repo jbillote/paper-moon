@@ -1,12 +1,19 @@
 import { html, Html } from '@elysiajs/html'
 import { Elysia } from 'elysia'
-import { PaginatedServantList } from '../models/paginatedServantList'
+import { type PaginatedServantList } from '../models/paginatedServantList'
 import { ServantService } from '../services/servantService'
+import { Logger } from '../utils/logger'
 import { Base } from './components/base'
 import { ServantListSkeleton } from './components/servantListSkeleton'
 import { ServantSearchResult } from './components/servantSearchResult'
 
 const index = new Elysia()
+  .use(Logger)
+  .derive({ as: 'scoped' }, ({ log }) => {
+    return {
+      servantService: new ServantService(log),
+    }
+  })
   .use(html())
   .get('/', () => (
     <Base>
@@ -15,8 +22,8 @@ const index = new Elysia()
       </div>
     </Base>
   ))
-  .get('/home', async () => {
-    const servants: PaginatedServantList = await ServantService.allServants()
+  .get('/home', async ({ servantService }) => {
+    const servants: PaginatedServantList = await servantService.allServants()
     return (
       <div class="my-5 flex h-5/6 flex-col items-center gap-4">
         <input

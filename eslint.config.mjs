@@ -33,7 +33,7 @@ export default defineConfig([
       sourceType: 'module',
 
       parserOptions: {
-        tsconfigRootDir: '/home/jbillote/projects/paper-moon',
+        tsconfigRootDir: __dirname,
 
         project: [
           './tsconfig.json',
@@ -72,5 +72,6 @@ export default defineConfig([
   {
     files: ['./cli/template/**/*.{ts,tsx}'],
     extends: compat.extends('plugin:@typescript-eslint/disable-type-checked'),
+    ignores: ['public'],
   },
 ])

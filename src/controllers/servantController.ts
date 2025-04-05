@@ -14,10 +14,6 @@ const servantController = new Elysia({ prefix: '/api/v1' })
   .derive({ as: 'scoped' }, ({ log }) => {
     return {
       servantService: new ServantService(log),
-    }
-  })
-  .derive({ as: 'scoped' }, ({ log }) => {
-    return {
       log: log.child({ component: 'servantController' }),
     }
   })

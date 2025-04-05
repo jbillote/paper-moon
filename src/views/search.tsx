@@ -10,10 +10,6 @@ const searchPage = new Elysia()
   .derive({ as: 'scoped' }, ({ log }) => {
     return {
       servantService: new ServantService(log),
-    }
-  })
-  .derive({ as: 'scoped' }, ({ log }) => {
-    return {
       log: log.child({ component: 'searchPage' }),
     }
   })

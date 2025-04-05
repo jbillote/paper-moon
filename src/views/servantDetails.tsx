@@ -14,10 +14,6 @@ servantDetailsPage
   .derive({ as: 'scoped' }, ({ log }) => {
     return {
       servantService: new ServantService(log),
-    }
-  })
-  .derive({ as: 'scoped' }, ({ log }) => {
-    return {
       log: log.child({ component: 'servantDetailsPage' }),
     }
   })

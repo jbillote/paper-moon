@@ -45,6 +45,7 @@ branch contains the configuration to deploy on [Zerops](https://zerops.io/).
 ## Known Issues and Todos
 - Implement unit tests
 - Implement caching using sqlite, including Turso for live access
+- Responsive design to better support different form factors such as mobile
 - Allow switching of portrait on details page
 - Implement proper page history navigation
 - Look into relatively high memory usage as HTML is swapped in and out

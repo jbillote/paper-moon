@@ -25,7 +25,7 @@ servantDetailsPage
 
       return (
         <div class="grid w-11/12 grid-cols-12 grid-rows-12 gap-4">
-          <div class="col-span-4 row-span-10">
+          <div class="col-span-4 row-span-12 h-fit">
             <img class="w-fit" src={servant.portraits[3]} />
           </div>
           <div class="col-span-8 row-span-10 grid h-fit grid-rows-12">

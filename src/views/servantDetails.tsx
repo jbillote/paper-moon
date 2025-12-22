@@ -103,7 +103,7 @@ servantDetailsPage
           {materials.map((material) => (
             <div class="text-center">
               <img src={material.icon} alt={material.name} class="w-12" />
-              <div>{material.amount}</div>
+              <div>{material.amount.toLocaleString()}</div>
             </div>
           ))}
         </div>

@@ -4,7 +4,12 @@ import { type PaginatedServantList } from '../models/paginatedServantList'
 import { type Servant } from '../models/servant'
 import { type ServantDetails } from '../models/servantDetails'
 import { type Skill } from '../models/skill'
-import { AtlasAcademy } from '../network/atlasAcademy'
+import {
+  AtlasAcademy,
+  type BasicServantResponse,
+  type MaterialsByLevelResponse,
+  type ServantResponse,
+} from '../network/atlasAcademy'
 
 class ServantService {
   private logger: Logger
@@ -17,7 +22,7 @@ class ServantService {
 
   async allServants(page = 0, pageSize = 20): Promise<PaginatedServantList> {
     const offset: number = page * pageSize
-    const resp: Record<string, any>[] = await this.atlasAcademy.getServants()
+    const resp: BasicServantResponse[] = await this.atlasAcademy.getServants()
 
     const servants: Servant[] = []
     for (let ndx: number = offset; ndx < resp.length && ndx < offset + pageSize; ndx++) {
@@ -44,7 +49,9 @@ class ServantService {
 
   async searchServants(query: string, page = 0, pageSize = 20): Promise<PaginatedServantList> {
     const offset: number = page * pageSize
-    const resp: Record<string, any>[] = await this.atlasAcademy.searchServants(encodeURIComponent(query))
+    const resp: BasicServantResponse[] = await this.atlasAcademy.searchServants(
+      encodeURIComponent(query),
+    )
 
     const servants: Servant[] = []
     for (let ndx: number = offset; ndx < resp.length && ndx < offset + pageSize; ndx++) {
@@ -70,7 +77,7 @@ class ServantService {
   }
 
   async servantDetails(id: number): Promise<ServantDetails> {
-    const resp: Record<string, any> = await this.atlasAcademy.getServant(id)
+    const resp: ServantResponse = await this.atlasAcademy.getServant(id)
 
     const portraits: string[] = []
     for (const k in resp.extraAssets.charaGraph.ascension) {
@@ -78,7 +85,7 @@ class ServantService {
     }
 
     const skills: Skill[] = []
-    resp.skills.forEach((v: Record<string, any>) => {
+    resp.skills.forEach((v) => {
       skills.push({
         name: v.name,
         icon: v.icon,
@@ -86,7 +93,7 @@ class ServantService {
     })
 
     const appends: Skill[] = []
-    resp.appendPassive.forEach((v: Record<string, any>) => {
+    resp.appendPassive.forEach((v) => {
       appends.push({
         name: v.skill.name,
         icon: v.skill.icon,
@@ -151,11 +158,13 @@ class ServantService {
     return qp
   }
 
-  private materials(materialResp: Record<string, any>): { qp: number; materials: Material[] }[] {
+  private materials(
+    materialResp: MaterialsByLevelResponse,
+  ): { qp: number; materials: Material[] }[] {
     const materials: { qp: number; materials: Material[] }[] = []
     for (const o in materialResp) {
       const items: Material[] = []
-      materialResp[o].items.forEach((v: Record<string, any>) => {
+      materialResp[o].items.forEach((v) => {
         items.push({
           id: v.item.id,
           name: v.item.name,
@@ -184,20 +193,15 @@ class ServantService {
     for (let ndx = start; ndx < requiredMaterials.length && ndx < end; ndx++) {
       qp += requiredMaterials[ndx].qp
 
-      for (
-        let materialNdx = 0;
-        materialNdx < requiredMaterials[ndx].materials.length;
-        materialNdx++
-      ) {
+      for (const material of requiredMaterials[ndx].materials) {
         const existingNdx = existingMaterials.findIndex((value) => {
-          return value.id === requiredMaterials[ndx].materials[materialNdx].id
+          return value.id === material.id
         })
 
         if (existingNdx < 0) {
-          existingMaterials.push({ ...requiredMaterials[ndx].materials[materialNdx] })
+          existingMaterials.push({ ...material })
         } else {
-          existingMaterials[existingNdx].amount +=
-            requiredMaterials[ndx].materials[materialNdx].amount
+          existingMaterials[existingNdx].amount += material.amount
         }
       }
     }

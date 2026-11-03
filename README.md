@@ -43,7 +43,7 @@ For an example, the [zerops](https://github.com/jbillote/paper-moon/tree/zerops)
 branch contains the configuration to deploy on [Zerops](https://zerops.io/).
 
 ## Known Issues and Todos
-- Implement unit tests
+- Refine unit tests
 - Implement caching using sqlite, including Turso for live access
 - Responsive design to better support different form factors such as mobile
 - Allow switching of portrait on details page

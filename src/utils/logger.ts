@@ -1,5 +1,5 @@
 import { Elysia } from 'elysia'
-import { pino } from 'pino'
+import { pino, type DestinationStream } from 'pino'
 import { RequestID } from './requestId'
 
 const Logger = new Elysia({ name: 'logger' }).use(RequestID).derive({ as: 'global' }, (ctx) => {
@@ -8,9 +8,10 @@ const Logger = new Elysia({ name: 'logger' }).use(RequestID).derive({ as: 'globa
     process.env.NODE_ENV === 'test'
       ? pino({ level: 'silent' })
       : pino(
+          // thread-stream ships no types, so transport() resolves to `any`
           pino.transport({
             target: 'pino-pretty',
-          }),
+          }) as DestinationStream,
         )
   ).child({ requestID: ctx.requestID })
 

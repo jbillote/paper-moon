@@ -35,12 +35,7 @@ export default defineConfig([
       parserOptions: {
         tsconfigRootDir: __dirname,
 
-        project: [
-          './tsconfig.json',
-          './cli/tsconfig.eslint.json',
-          './upgrade/tsconfig.json',
-          './www/tsconfig.json',
-        ],
+        project: ['./tsconfig.json'],
       },
     },
 
@@ -70,8 +65,10 @@ export default defineConfig([
     },
   },
   {
-    files: ['./cli/template/**/*.{ts,tsx}'],
+    files: ['**/*.{js,mjs,cjs}'],
     extends: compat.extends('plugin:@typescript-eslint/disable-type-checked'),
-    ignores: ['public'],
+  },
+  {
+    ignores: ['public/**'],
   },
 ])

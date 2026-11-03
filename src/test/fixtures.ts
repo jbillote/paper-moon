@@ -1,8 +1,13 @@
 import { pino } from 'pino'
+import {
+  type BasicServantResponse,
+  type ItemAmountResponse,
+  type ServantResponse,
+} from '../network/atlasAcademy'
 
 const silentLogger = pino({ level: 'silent' })
 
-const basicServants: Record<string, unknown>[] = [
+const basicServants: BasicServantResponse[] = [
   { id: 100100, name: 'Altria Pendragon', classId: 1, rarity: 5, face: 'face/100100.png' },
   { id: 100200, name: 'Altera', classId: 1, rarity: 5, face: 'face/100200.png' },
   { id: 100300, name: 'Gilles de Rais', classId: 1, rarity: 3, face: 'face/100300.png' },
@@ -10,11 +15,11 @@ const basicServants: Record<string, unknown>[] = [
   { id: 100500, name: 'Okita Souji', classId: 1, rarity: 5, face: 'face/100500.png' },
 ]
 
-function item(id: number, name: string, amount: number): Record<string, unknown> {
+function item(id: number, name: string, amount: number): ItemAmountResponse {
   return { item: { id, name, icon: `item/${id}.png` }, amount }
 }
 
-const servantResponse: Record<string, unknown> = {
+const servantResponse: ServantResponse = {
   id: 100100,
   name: 'Altria Pendragon',
   classId: 1,

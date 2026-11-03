@@ -1,5 +1,46 @@
 import { type Logger } from 'pino'
 
+interface BasicServantResponse {
+  id: number
+  name: string
+  classId: number
+  rarity: number
+  face: string
+}
+
+interface ItemAmountResponse {
+  item: { id: number; name: string; icon: string }
+  amount: number
+}
+
+interface MaterialsResponse {
+  items: ItemAmountResponse[]
+  qp: number
+}
+
+type MaterialsByLevelResponse = Record<string, MaterialsResponse>
+
+interface SkillResponse {
+  name: string
+  icon: string
+}
+
+interface ServantResponse {
+  id: number
+  name: string
+  classId: number
+  rarity: number
+  extraAssets: {
+    charaGraph: { ascension: Record<string, string> }
+    faces: { ascension: Record<string, string> }
+  }
+  skills: SkillResponse[]
+  appendPassive: { skill: SkillResponse }[]
+  ascensionMaterials: MaterialsByLevelResponse
+  skillMaterials: MaterialsByLevelResponse
+  appendSkillMaterials: MaterialsByLevelResponse
+}
+
 // TODO: Implement more robust error checking for any network errors, JSON
 // parsing errors, and any potential type errors
 class AtlasAcademy {
@@ -9,30 +50,28 @@ class AtlasAcademy {
     this.logger = logger.child({ component: 'atlasAcademy' })
   }
 
-  async getServants(): Promise<Record<string, any>[]> {
+  async getServants(): Promise<BasicServantResponse[]> {
     // TODO: Cache this JSON file since it shouldn't change very often
     const url = 'https://api.atlasacademy.io/export/JP/basic_servant_lang_en.json'
     this.logger.info('Fetching servant list from remote')
     const resp: Response = await fetch(url)
-    const respJson: Record<string, any>[] = (await resp.json()) as Record<string, any>[]
-
-    return respJson
+    return (await resp.json()) as BasicServantResponse[]
   }
 
-  async searchServants(query: string): Promise<Record<string, any>[]> {
+  async searchServants(query: string): Promise<BasicServantResponse[]> {
     // TODO: Cache response for pagination
     const url = `https://api.atlasacademy.io/basic/JP/servant/search?name=${encodeURIComponent(query)}&lang=en`
     this.logger.info(`Searching for servant with query=${encodeURIComponent(query)}`)
     const resp: Response = await fetch(url)
-    return (await resp.json()) as Record<string, any>[]
+    return (await resp.json()) as BasicServantResponse[]
   }
 
-  async getServant(id: number): Promise<Record<string, any>> {
+  async getServant(id: number): Promise<ServantResponse> {
     // TODO: Cache servant information since it shouldn't change very often
     const url = `https://api.atlasacademy.io/nice/JP/servant/${id}?lang=en`
     this.logger.info(`Fetching details for servant with id ${id} from remote`)
     const resp: Response = await fetch(url)
-    return (await resp.json()) as Record<string, any>[]
+    return (await resp.json()) as ServantResponse
   }
 
   classIconURL(classId: number, rarity: number): string {
@@ -52,4 +91,10 @@ class AtlasAcademy {
   }
 }
 
-export { AtlasAcademy }
+export {
+  AtlasAcademy,
+  type BasicServantResponse,
+  type ItemAmountResponse,
+  type MaterialsByLevelResponse,
+  type ServantResponse,
+}

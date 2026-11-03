@@ -1,5 +1,5 @@
 import { afterEach, describe, expect, mock, spyOn, test } from 'bun:test'
-import { silentLogger } from '../test/fixtures'
+import { basicServants, servantResponse, silentLogger } from '../test/fixtures'
 import { AtlasAcademy } from './atlasAcademy'
 
 describe('AtlasAcademy', () => {
@@ -36,27 +36,27 @@ describe('AtlasAcademy', () => {
     }
 
     test('getServants fetches the basic servant export', async () => {
-      const fetchSpy = mockFetch([{ id: 1 }])
+      const fetchSpy = mockFetch(basicServants)
 
-      expect(await atlasAcademy.getServants()).toEqual([{ id: 1 }])
+      expect(await atlasAcademy.getServants()).toEqual(basicServants)
       expect(fetchSpy).toHaveBeenCalledWith(
         'https://api.atlasacademy.io/export/JP/basic_servant_lang_en.json',
       )
     })
 
     test('searchServants passes the query to the search endpoint', async () => {
-      const fetchSpy = mockFetch([{ id: 2 }])
+      const fetchSpy = mockFetch(basicServants.slice(0, 1))
 
-      expect(await atlasAcademy.searchServants('altria')).toEqual([{ id: 2 }])
+      expect(await atlasAcademy.searchServants('altria')).toEqual(basicServants.slice(0, 1))
       expect(fetchSpy).toHaveBeenCalledWith(
         'https://api.atlasacademy.io/basic/JP/servant/search?name=altria&lang=en',
       )
     })
 
     test('getServant fetches the nice servant endpoint by id', async () => {
-      const fetchSpy = mockFetch({ id: 100100 })
+      const fetchSpy = mockFetch(servantResponse)
 
-      expect(await atlasAcademy.getServant(100100)).toEqual({ id: 100100 })
+      expect(await atlasAcademy.getServant(100100)).toEqual(servantResponse)
       expect(fetchSpy).toHaveBeenCalledWith(
         'https://api.atlasacademy.io/nice/JP/servant/100100?lang=en',
       )

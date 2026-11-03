@@ -44,7 +44,7 @@ class ServantService {
 
   async searchServants(query: string, page = 0, pageSize = 20): Promise<PaginatedServantList> {
     const offset: number = page * pageSize
-    const resp: Record<string, any>[] = await this.atlasAcademy.searchServants(query)
+    const resp: Record<string, any>[] = await this.atlasAcademy.searchServants(encodeURIComponent(query))
 
     const servants: Servant[] = []
     for (let ndx: number = offset; ndx < resp.length && ndx < offset + pageSize; ndx++) {

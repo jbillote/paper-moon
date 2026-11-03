@@ -21,8 +21,8 @@ class AtlasAcademy {
 
   async searchServants(query: string): Promise<Record<string, any>[]> {
     // TODO: Cache response for pagination
-    const url = `https://api.atlasacademy.io/basic/JP/servant/search?name=${query}&lang=en`
-    this.logger.info(`Searching for servant with query=${query}`)
+    const url = `https://api.atlasacademy.io/basic/JP/servant/search?name=${encodeURIComponent(query)}&lang=en`
+    this.logger.info(`Searching for servant with query=${encodeURIComponent(query)}`)
     const resp: Response = await fetch(url)
     return (await resp.json()) as Record<string, any>[]
   }

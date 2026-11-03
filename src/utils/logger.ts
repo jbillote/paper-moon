@@ -3,10 +3,15 @@ import { pino } from 'pino'
 import { RequestID } from './requestId'
 
 const Logger = new Elysia({ name: 'logger' }).use(RequestID).derive({ as: 'global' }, (ctx) => {
-  const log = pino(
-    pino.transport({
-      target: 'pino-pretty',
-    }),
+  // Skip the pretty transport under test so test output isn't flooded with logs
+  const log = (
+    process.env.NODE_ENV === 'test'
+      ? pino({ level: 'silent' })
+      : pino(
+          pino.transport({
+            target: 'pino-pretty',
+          }),
+        )
   ).child({ requestID: ctx.requestID })
 
   return {
